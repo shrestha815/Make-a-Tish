@@ -1,0 +1,348 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 1;">
+    <img src="{{url_for('static', filename='logo.png')}}" alt="Mike" style="width:5%">
+    <a class="navbar-brand" style="color: white;">Make-a-Tish</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item active">
+            <a class="nav-link" href="/homeUser/">Home <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item active">
+            <a class="nav-link" href="/editor/">Create <span class="sr-only">(current)</span></a>
+            </li>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="/about_user/">About Us <span class="sr-only">(current)</span></a>
+        </li>
+
+    </ul>
+    
+    </div>
+      <ul class = "nav navbar-nav navbar-right">
+        <li class="nav-item active">
+            <a class = "nav-link" href="http://localhost:5000/">Logout <span class = "sr-only" style="right: 0; left: auto;">(current)</span></a>
+        </li>
+    </ul>
+    <a class="btn btn-primary" style="font-size: 20px; top: 80%; right: 10%; border: 3px solid #4890ad; background-color: #4890ad;" role="button" href="http://localhost:5000/checkout_signed_out/">Checkout</a>
+</nav>
+
+{% block content %}
+
+<div class="text-center">
+    <h1>Editor</h1>
+</div>
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+.sidebar{
+  height: 100%;
+  width: 400px;
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  background-color: #4890ad;
+  overflow-x: hidden;
+  padding-top: 5%;
+  
+}
+.rightsidebar{
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  text-align: right;
+
+  background-color: #4890ad;
+  overflow-x: hidden;
+  padding-top: 5%;
+  
+}
+.drop-down{
+  font-size: 20px;
+  float: right;
+  position: relative;
+  top: 10px;
+}
+
+h2{
+  user-select: none;
+  border: 3px solid #4890ad;
+  padding: 5px;
+}
+h6{
+  font-size: 50px;
+  text-align: center;
+}
+
+
+br{
+  user-select: none;
+}
+
+#foto-file{
+  display: none;
+}
+
+#btn{
+  width: 170px;
+  background-color: #051014;
+  border: 3px solid #051014;
+}
+
+.radiostyle {
+    background-color: #cddddd;
+}
+
+.form-control {
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+.image{
+  width: 400px;
+  height: 400px;
+  position: relative;
+  left: 600px;
+  user-select: none;
+}
+
+#colorize-color-picker{
+  display: none;
+}
+#change{
+    width: 400px;
+    height: 400px;
+    margin: 50px;
+    background: blue;
+    border: 3px solid #051014;
+    margin: 50px auto;
+    left: 600px;
+}
+#list{
+  text-align: left;
+}
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Make-a-Tish</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  </head>
+  <body onload="loadtemplate()">
+   <div class="sidebar">
+     <div class="shape">
+        <h2 type="button" data-toggle="collapse" data-target="#shape">Shape <span class="drop-down">&#9660;</span></h2>
+        <div class="collapse" id="shape">
+          <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+          <input onclick = "changeToCube()" type="radio" name="shape" id="cube" style="color:#cddddd;"/>Cube</label>
+          <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+          <input onclick="changeToRectangular()" type="radio" name="shape" id="rect" style="color:#cddddd;"/>Rectangular</label>
+        </div>
+     </div>
+      <div class="size">
+        <h2 type="button" data-toggle="collapse" data-target="#size">Size <span class="drop-down">&#9660;</span></h2>
+        <div class="collapse" id="size">
+          <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input onclick="changeToSmall()" type="radio" name="size" id="small" style="color:#cddddd;"/>Small</label>
+            <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input onclick="changeToMedium()" type="radio" name="size" id="medium" style="color:#cddddd;"/>Medium</label>
+            <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input onclick="changeToLarge()" type="radio" name="size" id="large" style="color:#cddddd;"/>Large</label>
+        </div>
+      </div>
+      <div class="finish">
+        <h2 type="button" data-toggle="collapse" data-target="#finish">Finish <span class="drop-down">&#9660;</span></h2>
+        <div class="collapse" id="finish">
+          <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input type="radio" onclick="changeToMatte()" name="finish" id="matte" style="color:#cddddd;"/>Matte</label>
+            <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input type="radio" onclick="changeToGlossy()" name="finish" id="glossy" style="color:#cddddd;"/>Glossy</label>
+            <label class="form-control" style="background-color: #051014; border: 3px solid #051014; color:#cddddd; font-size: 20px;">
+            <input type="radio" onclick="changeToFlat()" name="finish" id="flat" style="color:#cddddd;"/>Flat</label>
+        </div>
+      </div>
+      <div class="color">
+        <h2 type="button" data-toggle="collapse" data-target="#color">Color or Design<span class="drop-down">&#9660;</span></h2>
+        <div class="collapse" id="color">
+          <input type="color" id="colorize-color-picker" value="#000000" oninput="makeColorize(this)">
+          <button class="btn btn-primary" style="font-size: 20px; border: 3px solid #051014;" id="btn" onclick="openColorPicker()">Color Picker</button>
+        </div>
+      </div>
+   </div>
+   
+   
+   <div id = "change"></div>
+    <!--<img src = "{{url_for('static', filename='blank.png')}}" id = "foto-image" class="image">-->
+    <div class="rightsidebar">
+      <h6>Summary</h6>
+      <ul id = "list"> 
+      </ul>
+     </div>
+    <script>
+      
+      var button= document.querySelector('button');
+      var box = document.getElementById('change');
+      var cube = false;
+      var rectangle = false;
+      var small = false;
+      var medium = true;
+      var large = false;
+      var matte = false;
+      var glossy = false;
+      var flat = true;
+
+
+      function changeColorToRed(){
+        box.style.background = 'red';
+      }
+
+      function changeColorToBlue(){
+          box.style.background = 'blue';
+      }
+
+      function changeColorToBlack(){
+        box.style.background = 'black';
+      }
+
+      function changeToRectangular(){
+        box.style.width = 600;
+        cube = false;
+        rectangle = true;
+        updatelist();
+      }
+
+      function changeToCube(){
+        box.style.width = 400;
+        rectangle = false;
+        cube = true;
+        updatelist();
+      }
+
+      function changeToSmall(){
+        if(box.style.width == 600){
+          box.style.width = 300;
+          box.style.height = 200;
+        }else{
+          box.style.width = 200;
+          box.style.height = 200;
+        }
+        
+        small = true;
+        medium = false;
+        large = false;
+        updatelist()
+      }
+      
+
+      function changeToMedium(){
+        if(box.style.width == 300 || box.style.width == 700){
+          box.style.width = 600;
+          box.style.height = 400;
+        }else{
+          box.style.width = 400;
+          box.style.height = 400;
+        }
+        small = false;
+        medium = true;
+        large = false;
+        updatelist()
+      }
+      function changeToLarge(){
+        if(box.style.width == 300 || box.style.width == 600){
+          box.style.width = 700;
+          box.style.height = 500;
+        }else{
+          box.style.width = 700;
+          box.style.height = 700;
+        }
+        small = false;
+        medium = false;
+        large = true;
+        updatelist()
+      }
+
+      function changeToMatte(){
+        matte = true;
+        glossy = false;
+        flat = false;
+        updatelist();
+
+      }
+
+      function changeToGlossy(){
+        matte = false;
+        glossy = true;
+        flat = false;
+        updatelist();
+      }
+
+      function changeToFlat(){
+        matte = false;
+        glossy = false;
+        flat = true;
+        updatelist();
+      }
+      function updatelist(){
+        var stringShape = "";
+        var stringSize = "";
+        var stringFinish = "";
+
+        if (rectangle == true) {
+          stringShape = "Shape: Rectangle\n";
+        }
+        if(cube == true){
+          stringShape = "Shape: Cube\n";
+        }
+        if(small == true){
+          stringSize = "Size: Small\n";
+        }
+        if(medium == true){
+          stringSize = "Size: Medium\n";
+        }
+        if(large == true){
+          stringSize = "Size: Large\n";
+        }
+        if(matte == true){
+          stringFinish= "Finish: Matte\n";
+
+        }else if(glossy == true){
+          stringFinish= "Finish: Glossy\n";
+        }else if(flat == true){
+          stringFinish= "Finish: Flat\n";
+        }
+
+
+
+        var list= document.getElementById("list");
+        list.innerHTML = "1." +stringShape +"<br />";
+        list.innerHTML +="2." +stringSize + "<br />";
+        list.innerHTML +="3." + stringFinish + "<br />";
+        //list.innerHTML +="4. Color: " + box.style.background.charAt + "<br />";
+
+      }
+    </script>
+    <script src="https://rawcdn.githack.com/kousik19/foto.js/045defe1a5ce06220e084e4e6f6fbaccb7621841/foto.min.js"></script>
+    <script src="{{url_for('static', filename='editor.js')}}"></script>
+
+  </body>
+</html>
+{% endblock %}

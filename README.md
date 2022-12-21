@@ -1,3 +1,6 @@
-# cs320-final-project-repo
+# Make-a-Tish: Custom Tissue Box Website project
 
-Your team project will go here. Use the issue system to track and manage your work. The issue system is **NOT** optional, track everything!
+A website that allows its users to design their own custom tissue paper boxes.
+
+- Uses HTML bootstrap and CSS for the front end, Flask and JavaScript for the backend.
+- More emphasis was put in the UI/UX segment of this project.
